@@ -1,53 +1,34 @@
+def insertionSort(data):
+    for i in range(1,len(data)):
+        check_point = data[i]
+        j = i - 1
 
-records = []
-def secondLowest(arr):
-    secondName = []
-    for i in range(1, len(arr)):
-        key = arr[i][1]
-        j = i-1
-        while((j>=0) & (key < arr[j][1])):
-            temp = arr[j+1]
-            arr[j+1] = arr[j]
-            arr[j] = temp
+        while j >= 0 and check_point[1] < data[j][1]:
+            data[j+1] = data[j]
             j -= 1
+        data[j+1] = check_point
+    return data
+
+def secondLowest(data):
+    ListOfSecondVal = []
+    SumOfSecondVal = 0
     i = 0
-    
-    while i < len(arr):
-        check_point = i + 1 
-        if arr[i][1] != arr[check_point][1]:
-            pjg = len(arr)
-            while check_point < pjg:
-                next_point = check_point + 1
-                if(arr[check_point][1] == arr[next_point][1]):
-                    secondName.append(arr[check_point][0])
-                    check_point += 1
-                elif check_point > 1 & (arr[check_point][1] != arr[next_point][1]):
-                    secondName.append(arr[check_point][0])
-                    check_point = pjg
-                elif ((check_point == 1) & (arr[check_point][1] != arr[next_point][1])):
-                    secondName.append(arr[check_point][0])
-                    check_point = pjg
-                else:
-                    check_point += 1
-
-            i = len(arr)
+    while i <= len(data)-2:
+        if (data[i][1] < data[i+1][1]) and (SumOfSecondVal == 0):
+            ListOfSecondVal.append(data[i+1][0])
+            SumOfSecondVal += 1
+        elif data[i][1] == data[i+1][1] and SumOfSecondVal > 0:
+            ListOfSecondVal.append(data[i+1][0])
+            SumOfSecondVal += 1
+        elif data[i][1] == data[i+1][1] and SumOfSecondVal == 0:
+            pass
         else:
-            i+=1
-    
-    secondName.sort()
+            break
+        i += 1
+    return ListOfSecondVal
 
-    return secondName 
-
-
-
-for x in range(int(input())):
-    subList = []
-    name = input()
-    score = float(input())
-    subList.append(name)
-    subList.append(score)
-    records.append(subList)
-
-secondNameResults = secondLowest(records)
-for results in secondNameResults:
-    print(results)
+data = [[input(), float(input())] for i in range(int(input()))]
+result = insertionSort(data)
+final = sorted(secondLowest(result))
+for i in final:
+    print(i)
